@@ -1,0 +1,350 @@
+{
+    "epoch": 5,
+    "baseline_loss": 0.875,
+    "best_initial_attack": {
+        "tokens": [
+            "M",
+            "z",
+            "[",
+            "7",
+            "#"
+        ],
+        "origin": "random",
+        "origin_tokens": [
+            "M",
+            "z",
+            "[",
+            "7",
+            "#"
+        ],
+        "modified": [
+            false,
+            false,
+            false,
+            false,
+            false
+        ]
+    },
+    "best_initial_loss": 0.625,
+    "best_initial_attacks": [
+        {
+            "tokens": [
+                "M",
+                "z",
+                "[",
+                "7",
+                "#"
+            ],
+            "origin": "random",
+            "origin_tokens": [
+                "M",
+                "z",
+                "[",
+                "7",
+                "#"
+            ],
+            "modified": [
+                false,
+                false,
+                false,
+                false,
+                false
+            ]
+        },
+        {
+            "tokens": [
+                "O",
+                "\u0019",
+                "\u0012",
+                "T",
+                "x"
+            ],
+            "origin": "random",
+            "origin_tokens": [
+                "O",
+                "\u0019",
+                "\u0012",
+                "T",
+                "x"
+            ],
+            "modified": [
+                false,
+                false,
+                false,
+                false,
+                false
+            ]
+        },
+        {
+            "tokens": [
+                "H",
+                "#",
+                "\u0018",
+                "@",
+                "%"
+            ],
+            "origin": "random",
+            "origin_tokens": [
+                "H",
+                "#",
+                "\u0018",
+                "@",
+                "%"
+            ],
+            "modified": [
+                false,
+                false,
+                false,
+                false,
+                false
+            ]
+        },
+        {
+            "tokens": [
+                "b",
+                "k",
+                "B",
+                "|",
+                "g"
+            ],
+            "origin": "random",
+            "origin_tokens": [
+                "b",
+                "k",
+                "B",
+                "|",
+                "g"
+            ],
+            "modified": [
+                false,
+                false,
+                false,
+                false,
+                false
+            ]
+        }
+    ],
+    "best_initial_losses": [
+        0.625,
+        0.875,
+        0.875,
+        0.875
+    ],
+    "best_attack_on_train": {
+        "tokens": [
+            "b",
+            "k",
+            "B",
+            "|",
+            "g"
+        ],
+        "origin": "random",
+        "origin_tokens": [
+            "b",
+            "k",
+            "B",
+            "|",
+            "g"
+        ],
+        "modified": [
+            false,
+            false,
+            false,
+            false,
+            false
+        ]
+    },
+    "best_loss_on_train": 0.625,
+    "top_k_attacks_on_train": [
+        {
+            "tokens": [
+                "b",
+                "k",
+                "B",
+                "|",
+                "g"
+            ],
+            "origin": "random",
+            "origin_tokens": [
+                "b",
+                "k",
+                "B",
+                "|",
+                "g"
+            ],
+            "modified": [
+                false,
+                false,
+                false,
+                false,
+                false
+            ],
+            "loss": 0.625
+        },
+        {
+            "tokens": [
+                "H",
+                "#",
+                "\u0018",
+                "\u0000",
+                "%"
+            ],
+            "origin": "random",
+            "origin_tokens": [
+                "H",
+                "#",
+                "\u0018",
+                "@",
+                "%"
+            ],
+            "modified": [
+                false,
+                false,
+                false,
+                true,
+                false
+            ],
+            "loss": 0.75
+        },
+        {
+            "tokens": [
+                "4",
+                "I",
+                "q",
+                "U",
+                "\u0017"
+            ],
+            "origin": "random",
+            "origin_tokens": [
+                "H",
+                "#",
+                "\u0018",
+                "@",
+                "%"
+            ],
+            "modified": [
+                true,
+                true,
+                true,
+                true,
+                true
+            ],
+            "loss": 0.75
+        },
+        {
+            "tokens": [
+                "&",
+                "#",
+                "\u0014",
+                "d",
+                "\t"
+            ],
+            "origin": "random",
+            "origin_tokens": [
+                "H",
+                "#",
+                "\u0018",
+                "@",
+                "%"
+            ],
+            "modified": [
+                true,
+                false,
+                true,
+                true,
+                true
+            ],
+            "loss": 0.75
+        }
+    ],
+    "eval_summary": {
+        "baseline_vul_ratio": 0.2,
+        "init_vul_ratio": 0.25,
+        "opt_vul_ratio": 0.35,
+        "baseline_np_ratio": 0.0,
+        "init_np_ratio": 0.0,
+        "opt_np_ratio": 0.0,
+        "init_adv_tokens": [
+            "M",
+            "z",
+            "[",
+            "7",
+            "#"
+        ],
+        "opt_adv_tokens": [
+            "4",
+            "I",
+            "q",
+            "U",
+            "\u0017"
+        ],
+        "top_results": [
+            [
+                0.35,
+                0.0,
+                [
+                    "4",
+                    "I",
+                    "q",
+                    "U",
+                    "\u0017"
+                ]
+            ],
+            [
+                0.25,
+                0.0,
+                [
+                    "&",
+                    "#",
+                    "\u0014",
+                    "d",
+                    "\t"
+                ]
+            ],
+            [
+                0.2,
+                0.0,
+                [
+                    "b",
+                    "k",
+                    "B",
+                    "|",
+                    "g"
+                ]
+            ],
+            [
+                0.2,
+                0.0,
+                [
+                    "H",
+                    "#",
+                    "\u0018",
+                    "\u0000",
+                    "%"
+                ]
+            ]
+        ]
+    },
+    "test_summary": {
+        "baseline_vul_ratio": 0.085,
+        "init_vul_ratio": 0.115,
+        "opt_vul_ratio": 0.1475,
+        "baseline_np_ratio": 0.0,
+        "init_np_ratio": 0.0,
+        "opt_np_ratio": 0.0,
+        "init_adv_tokens": [
+            "M",
+            "z",
+            "[",
+            "7",
+            "#"
+        ],
+        "opt_adv_tokens": [
+            "4",
+            "I",
+            "q",
+            "U",
+            "\u0017"
+        ]
+    }
+}
