@@ -5,6 +5,7 @@
 import dotenv from 'dotenv';
 import express, { Request, Response } from 'express';
 import path from 'path';
+import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import { createServer as createViteServer } from 'vite';
 import { GeminiAdapter, LocalMockAdapter } from './server/adapters/llmAdapter.js';
@@ -14,6 +15,28 @@ import { store } from './server/store.js';
 import { ChatRequestPayload, ChatResponsePayload, DetectionCategory } from './src/types.js';
 
 dotenv.config();
+// INSEC evaluation process state
+type InsecRunStatus = {
+  state: 'idle' | 'running' | 'completed' | 'failed';
+  message: string;
+  startedAt?: string;
+  finishedAt?: string;
+  log: string[];
+};
+
+let insecRunStatus: InsecRunStatus = {
+  state: 'idle',
+  message: 'No evaluation has been started.',
+  log: [],
+};
+
+let insecRunChild: ReturnType<typeof spawn> | null = null;
+
+function appendInsecRunLog(chunk: unknown) {
+  const lines = String(chunk).split(/\r?\n/).filter((line) => line.length > 0);
+  insecRunStatus.log.push(...lines);
+  insecRunStatus.log = insecRunStatus.log.slice(-100);
+}
 
 
 /**
@@ -367,6 +390,123 @@ async function startServer() {
     }
   });
 
+  // Start one INSEC evaluation in the existing Ubuntu/WSL environment.
+  app.post('/api/insec-run', (_req: Request, res: Response) => {
+    if (insecRunStatus.state === 'running') {
+      return res.status(409).json({
+        error: 'An INSEC evaluation is already running.',
+        status: insecRunStatus,
+      });
+    }
+
+    const evaluationScript = String.raw`
+set -euo pipefail
+source "$HOME/miniforge3/etc/profile.d/conda.sh"
+conda activate insec
+export CODEQL_HOME="$HOME/codeql"
+export PYTHONPATH="$HOME/insec-source"
+cd "$HOME/insec-source"
+
+results_root="$HOME/insec-source/results"
+latest="$(find "$results_root" -mindepth 2 -maxdepth 2 -type f -name RUN_COMPLETE -printf '%h\n' | grep -E '/fresh_eval_[0-9]{8}_[0-9]+$' | sort -r | head -n 1 || true)"
+
+if [ -z "$latest" ] || [ ! -f "$latest/result.json" ]; then
+  echo "ERROR: No completed fresh_eval report was found."
+  exit 2
+fi
+
+run_date="$(date +%Y%m%d)"
+n=1
+run_dir="$results_root/fresh_eval_$(date +%Y%m%d)_$n"
+while [ -e "$run_dir" ]; do
+  n=$((n + 1))
+  run_dir="$results_root/fresh_eval_$(date +%Y%m%d)_$n"
+done
+
+echo "Source report: $latest"
+echo "New evaluation directory: $run_dir"
+
+mkdir -p "$run_dir"
+cp "$latest/result.json" "$run_dir/result.json"
+
+echo "Copied source result.json into the new evaluation directory."
+echo "Starting INSEC evaluation; this does not optimize new tokens."
+
+
+python scripts/eval.py \
+  --dataset cwe-327_py \
+  --model_dir bigcode/starcoderbase-3b \
+  --dataset_dir "$HOME/insec-source/data_test" \
+  --result_dir "$run_dir" \
+  --output_dir "$run_dir" \
+  --temp 0.4 \
+  --seed 1 \
+  --attack_type comment \
+  --attack_position local_prefix \
+  --num_gen 100
+
+test -f "$run_dir/RUN_COMPLETE"
+echo "INSEC evaluation completed successfully."
+`;
+
+    insecRunStatus = {
+      state: 'running',
+      message: 'Starting INSEC evaluation in Ubuntu/WSL.',
+      startedAt: new Date().toISOString(),
+      log: [],
+    };
+
+    try {
+
+insecRunChild = spawn(
+  'wsl.exe',
+  ['-d', 'Ubuntu-24.04', '--', 'bash', '-s'],
+  { windowsHide: true },
+);
+
+insecRunChild.stdout.on('data', (chunk) => appendInsecRunLog(chunk));
+insecRunChild.stderr.on('data', (chunk) => appendInsecRunLog(chunk));
+
+insecRunChild.stdin.end(evaluationScript);
+
+
+      insecRunChild.on('error', (error) => {
+        appendInsecRunLog(error.message);
+        insecRunStatus.state = 'failed';
+        insecRunStatus.message = 'Could not start the WSL evaluation process.';
+        insecRunStatus.finishedAt = new Date().toISOString();
+        insecRunChild = null;
+      });
+
+      insecRunChild.on('close', (code) => {
+        if (code === 0) {
+          insecRunStatus.state = 'completed';
+          insecRunStatus.message = 'INSEC evaluation completed successfully.';
+        } else {
+          insecRunStatus.state = 'failed';
+          insecRunStatus.message = 'INSEC evaluation failed. Check the run log.';
+          appendInsecRunLog('WSL process exit code: ' + String(code));
+        }
+
+        insecRunStatus.finishedAt = new Date().toISOString();
+        insecRunChild = null;
+      });
+
+      return res.status(202).json({ status: insecRunStatus });
+    } catch (error) {
+      insecRunStatus.state = 'failed';
+      insecRunStatus.message =
+        error instanceof Error ? error.message : 'Could not start INSEC.';
+      insecRunStatus.finishedAt = new Date().toISOString();
+      insecRunChild = null;
+      return res.status(500).json({ status: insecRunStatus });
+    }
+  });
+
+  // Read the current evaluation state and recent output.
+  app.get('/api/insec-status', (_req: Request, res: Response) => {
+    res.json(insecRunStatus);
+  });
   app.get('/api/insec-results', async (_req: Request, res: Response) => {
   const resultsRoot =
     process.env.INSEC_RESULTS_DIR ??
@@ -394,23 +534,43 @@ async function startServer() {
 
     let reportPath: string | null = null;
 
+    // Prefer the newest completed fresh_eval report.
     for (const entry of candidates) {
       const directory = path.join(resultsRoot, entry.name);
+      const resultFile = path.join(directory, 'result.json');
+      const completionMarker = path.join(directory, 'RUN_COMPLETE');
 
-const resultFile = path.join(directory, 'result.json');
-const completionMarker = path.join(directory, 'RUN_COMPLETE');
-try {
-  await fs.promises.access(resultFile);
-  await fs.promises.access(completionMarker);
-
-  reportPath = resultFile;
-  break;
-} catch {
-  // Ignore incomplete evaluation reports.
-}
-
+      try {
+        await fs.promises.access(resultFile);
+        await fs.promises.access(completionMarker);
+        reportPath = resultFile;
+        break;
+      } catch {
+        // Ignore incomplete evaluation reports.
+      }
     }
 
+    // Fall back to the verified optimization report if no fresh
+    // completed evaluation report is available.
+    if (!reportPath) {
+      const optimizedReport = path.join(
+        resultsRoot,
+        'website_runs',
+        'model_dir',
+        'website_optimization_20261018_retry1',
+        'starcoderbase-3b',
+        'starcoderbase-3b',
+        'cwe-327_py'
+      );
+
+      try {
+        await fs.promises.access(path.join(optimizedReport, 'result.json'));
+        await fs.promises.access(path.join(optimizedReport, 'RUN_COMPLETE'));
+        reportPath = path.join(optimizedReport, 'result.json');
+      } catch {
+        // Use the existing website JSON fallback below.
+      }
+    }
     // Use the existing website JSON if no completed report is available.
     const selectedPath = reportPath ?? fallbackPath;
     const result = JSON.parse(
@@ -752,7 +912,7 @@ try {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🛡️  LLM Prompt Injection Firewall server running at http://localhost:${PORT}`);
+    console.log(`LLM Prompt Injection Firewall server running at http://localhost:${PORT}`);
   });
 }
 
