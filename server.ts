@@ -6,7 +6,6 @@ import dotenv from 'dotenv';
 import express, { Request, Response } from 'express';
 import path from 'path';
 import fs from 'node:fs';
-import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 import { GeminiAdapter, LocalMockAdapter } from './server/adapters/llmAdapter.js';
 import { inspectPromptWithAI } from './server/firewall/aiInspector.js';
@@ -16,8 +15,6 @@ import { ChatRequestPayload, ChatResponsePayload, DetectionCategory } from './sr
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 /**
  * Universal prompt extractor that supports:
@@ -100,7 +97,7 @@ function extractPromptFromRequest(req: Request): { prompt: string | null; applic
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = Number(process.env.PORT) || 3000;
 
   // Multi-format request body parsers (JSON, plain text, urlencoded, raw)
   app.use(express.json({ limit: '10mb' }));
@@ -294,18 +291,134 @@ async function startServer() {
       });
     }
   });
-  
-  
-app.get('/api/insec-results', async (_req: Request, res: Response) => {
+
+
+
+
+  // StarCoderBase-3B code generation API
+  app.post('/api/starcoder/generate', async (req: Request, res: Response) => {
+    const {
+      prompt,
+      suffix = '',
+      max_new_tokens = 32,
+    } = req.body ?? {};
+
+
+
+    if (typeof prompt !== 'string' || !prompt.trim()) {
+      return res.status(400).json({
+        error: 'Missing prompt',
+        message: 'Provide a non-empty code prompt.',
+      });
+    }
+
+    if (typeof suffix !== 'string') {
+      return res.status(400).json({
+        error: 'Invalid suffix',
+        message: 'The suffix must be a string.',
+      });
+    }
+
+    if (
+      Buffer.byteLength(prompt, 'utf8') +
+        Buffer.byteLength(suffix, 'utf8') > 60000
+    ) {
+      return res.status(413).json({
+        error: 'Input too large',
+        message: 'The combined prompt and suffix must be under 60 KB.',
+      });
+    }
+
+    if (
+      !Number.isInteger(max_new_tokens) ||
+      max_new_tokens < 1 ||
+      max_new_tokens > 128
+    ) {
+      return res.status(400).json({
+        error: 'Invalid token limit',
+        message: 'max_new_tokens must be an integer from 1 to 128.',
+      });
+    }
+
+    try {
+      const upstream = await fetch(
+        'http://127.0.0.1:8766/generate',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            prompt,
+            suffix,
+            max_new_tokens,
+          }),
+          signal: AbortSignal.timeout(120000),
+        }
+      );
+
+      const result = await upstream.json();
+      return res.status(upstream.status).json(result);
+    } catch (error) {
+      console.error('StarCoder API request failed:', error);
+
+      return res.status(502).json({
+        error: 'StarCoder service unavailable',
+        message: 'Check that the StarCoder service is running on port 8766.',
+      });
+    }
+  });
+
+  app.get('/api/insec-results', async (_req: Request, res: Response) => {
+  const resultsRoot =
+    process.env.INSEC_RESULTS_DIR ??
+    String.raw`\\wsl.localhost\Ubuntu-24.04\home\princepatel\insec-source\results`;
+
+  const fallbackPath = path.join(
+    process.cwd(),
+    'data',
+    'insec-result.json'
+  );
+
   try {
-    const resultPath = path.join(
-      process.cwd(),
-      'data',
-      'insec-result.json'
+    // Only use reports explicitly marked as completed.
+    const entries = await fs.promises.readdir(resultsRoot, {
+      withFileTypes: true,
+    });
+
+    const candidates = entries
+      .filter(
+        (entry) =>
+          entry.isDirectory() &&
+          /^fresh_eval_\d{8}_\d+$/.test(entry.name)
+      )
+      .sort((a, b) => b.name.localeCompare(a.name));
+
+    let reportPath: string | null = null;
+
+    for (const entry of candidates) {
+      const directory = path.join(resultsRoot, entry.name);
+
+const resultFile = path.join(directory, 'result.json');
+const completionMarker = path.join(directory, 'RUN_COMPLETE');
+try {
+  await fs.promises.access(resultFile);
+  await fs.promises.access(completionMarker);
+
+  reportPath = resultFile;
+  break;
+} catch {
+  // Ignore incomplete evaluation reports.
+}
+
+    }
+
+    // Use the existing website JSON if no completed report is available.
+    const selectedPath = reportPath ?? fallbackPath;
+    const result = JSON.parse(
+      await fs.promises.readFile(selectedPath, 'utf-8')
     );
 
-    const result = JSON.parse(
-      await fs.promises.readFile(resultPath, 'utf-8')
+    console.log(
+      `INSEC results loaded from: ${selectedPath}`
     );
 
     return res.json(result);
@@ -314,10 +427,12 @@ app.get('/api/insec-results', async (_req: Request, res: Response) => {
 
     return res.status(500).json({
       error: 'INSEC results unavailable',
-      message: 'Check that data/insec-result.json exists in the project folder.',
+      message:
+        'Check the WSL results folder and data/insec-result.json.',
     });
   }
 });
+
 
 
 

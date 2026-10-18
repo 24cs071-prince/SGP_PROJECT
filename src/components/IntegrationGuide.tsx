@@ -267,27 +267,27 @@ curl -X POST http://localhost:3000/api/inspect \\
   return (
     <div className="space-y-5">
       {/* Top Selector: Lab Extension vs Middleware SDK */}
-      <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+      <div className="flex bg-[#080D1A] p-1 rounded-xl border border-slate-800 font-mono text-xs">
         <button
           onClick={() => setActiveTab('methodA')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg font-bold transition-all cursor-pointer ${
             activeTab === 'methodA'
-              ? 'bg-white text-blue-600 shadow-xs border border-slate-200'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-gradient-to-r from-blue-600/30 to-cyan-600/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
+              : 'text-slate-400 hover:text-slate-200 border border-transparent'
           }`}
         >
-          <Laptop className="h-4 w-4" />
+          <Laptop className="h-4 w-4 text-cyan-400" />
           <span>College Lab Setup (Method A: Browser Extension)</span>
         </button>
         <button
           onClick={() => setActiveTab('sdk')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg font-bold transition-all cursor-pointer ${
             activeTab === 'sdk'
-              ? 'bg-white text-blue-600 shadow-xs border border-slate-200'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-gradient-to-r from-blue-600/30 to-cyan-600/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
+              : 'text-slate-400 hover:text-slate-200 border border-transparent'
           }`}
         >
-          <Code2 className="h-4 w-4" />
+          <Code2 className="h-4 w-4 text-cyan-400" />
           <span>Backend Middleware SDK (Python / Node / LangChain)</span>
         </button>
       </div>
@@ -295,106 +295,106 @@ curl -X POST http://localhost:3000/api/inspect \\
       {activeTab === 'methodA' ? (
         <div className="space-y-5">
           {/* Header Card */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-            <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+          <div className="bg-[#0F172A] rounded-xl shadow-md border border-slate-800/80 p-5">
+            <h2 className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-0.5 font-mono">
               Live College Lab Deployment
             </h2>
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-emerald-600" />
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-emerald-400" />
               <span>How Method A Protects Lab PCs via your Laptop</span>
             </h3>
-            <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-              In your college lab, your laptop runs this Prompt Injection Firewall server. The lab PCs have a lightweight browser extension installed. Whenever a student or attacker enters a malicious prompt on <strong className="text-slate-700">chatgpt.com</strong>, the extension intercepts it, queries your laptop over the lab Wi-Fi/LAN, blocks the attack on the lab PC screen, and streams the audit log directly to your laptop dashboard!
+            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+              In your college lab, your laptop runs this Prompt Injection Firewall server. The lab PCs have a lightweight browser extension installed. Whenever a student or attacker enters a malicious prompt on <strong className="text-slate-200">chatgpt.com</strong>, the extension intercepts it, queries your laptop over the lab Wi-Fi/LAN, blocks the attack on the lab PC screen, and streams the audit log directly to your laptop dashboard!
             </p>
           </div>
 
           {/* 4-Step Visual Workflow */}
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
-            <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
-              <Terminal className="h-4 w-4 text-blue-600" />
+          <div className="bg-[#0F172A] border border-slate-800/80 rounded-xl p-5 shadow-md space-y-4">
+            <h3 className="font-bold text-sm text-white flex items-center gap-2 font-mono">
+              <Terminal className="h-4 w-4 text-cyan-400" />
               <span>Step-by-Step Lab Setup Instructions for Project Submission</span>
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
-              <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-blue-600 uppercase">Step 01</span>
-                  <Wifi className="h-3.5 w-3.5 text-slate-400" />
+              <div className="bg-[#080D1A] p-3.5 rounded-lg border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between font-mono">
+                  <span className="text-[10px] font-bold text-cyan-400 uppercase">Step 01</span>
+                  <Wifi className="h-3.5 w-3.5 text-slate-500" />
                 </div>
-                <div className="font-bold text-slate-900 text-xs">Find Your Laptop IP</div>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
+                <div className="font-bold text-white text-xs">Find Your Laptop IP</div>
+                <p className="text-slate-400 text-[11px] leading-relaxed">
                   Connect both your laptop and lab PC to the same college Wi-Fi or lab LAN switch.
                 </p>
-                <div className="bg-slate-900 text-slate-200 p-2 rounded font-mono text-[10px]">
+                <div className="bg-[#050913] text-cyan-300 p-2 rounded font-mono text-[10px] border border-slate-800/80">
                   # Windows:<br/>ipconfig<br/><br/># Linux / Mac:<br/>ip a / ifconfig
                 </div>
                 <p className="text-[10px] text-slate-500">
-                  Note your IPv4 address (e.g. <code>192.168.1.50</code>).
+                  Note your IPv4 address (e.g. <code className="text-cyan-400">192.168.1.50</code>).
                 </p>
               </div>
 
-              <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-blue-600 uppercase">Step 02</span>
-                  <Laptop className="h-3.5 w-3.5 text-slate-400" />
+              <div className="bg-[#080D1A] p-3.5 rounded-lg border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between font-mono">
+                  <span className="text-[10px] font-bold text-cyan-400 uppercase">Step 02</span>
+                  <Laptop className="h-3.5 w-3.5 text-slate-500" />
                 </div>
-                <div className="font-bold text-slate-900 text-xs">Run Firewall on Laptop</div>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
-                  Start the firewall server on your laptop. It listens on port 3000 on all network interfaces (<span className="font-mono">0.0.0.0</span>).
+                <div className="font-bold text-white text-xs">Run Firewall on Laptop</div>
+                <p className="text-slate-400 text-[11px] leading-relaxed">
+                  Start the firewall server on your laptop. It listens on port 3000 on all network interfaces (<span className="font-mono text-cyan-400">0.0.0.0</span>).
                 </p>
-                <div className="bg-slate-900 text-slate-200 p-2 rounded font-mono text-[10px]">
+                <div className="bg-[#050913] text-cyan-300 p-2 rounded font-mono text-[10px] border border-slate-800/80">
                   npm run dev
                 </div>
-                <p className="text-[10px] text-emerald-600 font-medium">
+                <p className="text-[10px] text-emerald-400 font-medium">
                   CORS is enabled so any lab PC can send requests.
                 </p>
               </div>
 
-              <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-blue-600 uppercase">Step 03</span>
-                  <Monitor className="h-3.5 w-3.5 text-slate-400" />
+              <div className="bg-[#080D1A] p-3.5 rounded-lg border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between font-mono">
+                  <span className="text-[10px] font-bold text-cyan-400 uppercase">Step 03</span>
+                  <Monitor className="h-3.5 w-3.5 text-slate-500" />
                 </div>
-                <div className="font-bold text-slate-900 text-xs">Load Extension on Lab PC</div>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
+                <div className="font-bold text-white text-xs">Load Extension on Lab PC</div>
+                <p className="text-slate-400 text-[11px] leading-relaxed">
                   On the lab PC:
                 </p>
-                <ol className="list-decimal pl-4 space-y-1 text-[11px] text-slate-600">
+                <ol className="list-decimal pl-4 space-y-1 text-[11px] text-slate-300">
                   <li>Open Chrome or Edge</li>
-                  <li>Navigate to <code>chrome://extensions</code></li>
+                  <li>Navigate to <code className="text-cyan-400">chrome://extensions</code></li>
                   <li>Enable <strong>Developer mode</strong> (top right)</li>
-                  <li>Click <strong>Load unpacked</strong> and select the <code>/extension</code> folder</li>
+                  <li>Click <strong>Load unpacked</strong> and select the <code className="text-cyan-400">/extension</code> folder</li>
                 </ol>
               </div>
 
-              <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-blue-600 uppercase">Step 04</span>
-                  <ShieldCheck className="h-3.5 w-3.5 text-slate-400" />
+              <div className="bg-[#080D1A] p-3.5 rounded-lg border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between font-mono">
+                  <span className="text-[10px] font-bold text-cyan-400 uppercase">Step 04</span>
+                  <ShieldCheck className="h-3.5 w-3.5 text-slate-500" />
                 </div>
-                <div className="font-bold text-slate-900 text-xs">Demonstrate Attack Interception</div>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
-                  In extension popup, enter your laptop URL: <code>http://&lt;your-laptop-ip&gt;:3000</code> and click Test.
+                <div className="font-bold text-white text-xs">Demonstrate Attack Interception</div>
+                <p className="text-slate-400 text-[11px] leading-relaxed">
+                  In extension popup, enter your laptop URL: <code className="text-cyan-400">http://&lt;your-laptop-ip&gt;:3000</code> and click Test.
                 </p>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
-                  Now open <code>chatgpt.com</code> on the lab PC. Enter an attack prompt. The lab PC will instantly block it before it touches OpenAI!
+                <p className="text-slate-300 text-[11px] leading-relaxed">
+                  Now open <code className="text-cyan-400">chatgpt.com</code> on the lab PC. Enter an attack prompt. The lab PC will instantly block it before it touches OpenAI!
                 </p>
               </div>
             </div>
           </div>
 
           {/* Extension Code Files Viewer */}
-          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 sm:px-5 py-3 border-b border-slate-200 bg-slate-50 gap-3">
-              <div className="flex items-center space-x-1 overflow-x-auto pb-1 sm:pb-0 whitespace-nowrap">
+          <div className="bg-[#0F172A] border border-slate-800/80 rounded-xl overflow-hidden shadow-md">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 sm:px-5 py-3 border-b border-slate-800 bg-[#080D1A] gap-3">
+              <div className="flex items-center space-x-1 overflow-x-auto pb-1 sm:pb-0 whitespace-nowrap font-mono">
                 {Object.keys(EXTENSION_FILES).map((file) => (
                   <button
                     key={file}
                     onClick={() => setActiveExtTab(file)}
                     className={`px-3 py-1 rounded text-xs font-semibold transition-all cursor-pointer shrink-0 ${
                       activeExtTab === file
-                        ? 'bg-white text-blue-600 border border-slate-300 shadow-2xs font-bold'
-                        : 'text-slate-600 hover:text-slate-900'
+                        ? 'bg-[#111A2E] text-cyan-300 border border-cyan-500/40 shadow-xs font-bold'
+                        : 'text-slate-400 hover:text-slate-200'
                     }`}
                   >
                     {file}
@@ -404,23 +404,23 @@ curl -X POST http://localhost:3000/api/inspect \\
 
               <button
                 onClick={() => handleCopyExt(activeExtTab)}
-                className="flex items-center justify-center gap-1.5 text-xs text-slate-700 hover:text-slate-900 px-3 py-1 rounded bg-white border border-slate-200 transition-all cursor-pointer font-semibold shadow-2xs self-start sm:self-auto"
+                className="flex items-center justify-center gap-1.5 text-xs text-slate-200 hover:text-white px-3 py-1 rounded bg-[#111A2E] border border-slate-700/80 hover:border-cyan-500/40 transition-all cursor-pointer font-semibold shadow-xs self-start sm:self-auto font-mono"
               >
                 {copiedExtFile === activeExtTab ? (
                   <>
-                    <Check className="h-3.5 w-3.5 text-emerald-600" />
-                    <span className="text-emerald-700 font-bold">Copied!</span>
+                    <Check className="h-3.5 w-3.5 text-emerald-400" />
+                    <span className="text-emerald-300 font-bold">Copied!</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="h-3.5 w-3.5" />
+                    <Copy className="h-3.5 w-3.5 text-cyan-400" />
                     <span>Copy File</span>
                   </>
                 )}
               </button>
             </div>
 
-            <pre className="p-4 sm:p-5 text-xs font-mono text-slate-100 bg-[#0F172A] overflow-x-auto leading-relaxed max-h-[350px]">
+            <pre className="p-4 sm:p-5 text-xs font-mono text-cyan-300 bg-[#050913] overflow-x-auto leading-relaxed max-h-[350px]">
               <code>{EXTENSION_FILES[activeExtTab]}</code>
             </pre>
           </div>
@@ -428,52 +428,52 @@ curl -X POST http://localhost:3000/api/inspect \\
       ) : (
         <div className="space-y-5">
           {/* High Density Header */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-            <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+          <div className="bg-[#0F172A] rounded-xl shadow-md border border-slate-800/80 p-5">
+            <h2 className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-0.5 font-mono">
               Developer Integration
             </h2>
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Code2 className="h-4 w-4 text-blue-600" />
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <Code2 className="h-4 w-4 text-cyan-400" />
               <span>Reusable Middleware Integration SDK</span>
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5">
               Drop this security layer in front of any Python, Node.js, or LangChain backend in minutes.
             </p>
           </div>
 
           {/* Integration Pattern Cards */}
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
-            <div className="border-b border-slate-100 pb-3">
-              <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+          <div className="bg-[#0F172A] border border-slate-800/80 rounded-xl p-5 shadow-md space-y-4">
+            <div className="border-b border-slate-800 pb-3">
+              <h2 className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-0.5 font-mono">
                 Architecture Blueprint
               </h2>
-              <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
-                <Layers className="h-4 w-4 text-blue-600" />
+              <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                <Layers className="h-4 w-4 text-cyan-400" />
                 <span>Integration Pattern (Method B — Centralized Firewall Gateway)</span>
               </h3>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs pt-1">
-              <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-1">
-                <div className="text-[10px] font-bold text-slate-400 uppercase">Pattern 01</div>
-                <span className="font-bold text-slate-900 block text-xs">Centralized Gateway</span>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
+              <div className="bg-[#080D1A] p-3.5 rounded-lg border border-slate-800 space-y-1">
+                <div className="text-[10px] font-bold text-cyan-400 uppercase font-mono">Pattern 01</div>
+                <span className="font-bold text-white block text-xs">Centralized Gateway</span>
+                <p className="text-slate-400 text-[11px] leading-relaxed">
                   A single firewall cluster protects multi-tenant models and services with unified policy and logging.
                 </p>
               </div>
 
-              <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-1">
-                <div className="text-[10px] font-bold text-slate-400 uppercase">Pattern 02</div>
-                <span className="font-bold text-slate-900 block text-xs">Multi-Tenant Scoping</span>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
-                  Pass <span className="font-mono font-bold text-slate-800">application_id</span> to isolate telemetry, rules, and rate limiters.
+              <div className="bg-[#080D1A] p-3.5 rounded-lg border border-slate-800 space-y-1">
+                <div className="text-[10px] font-bold text-cyan-400 uppercase font-mono">Pattern 02</div>
+                <span className="font-bold text-white block text-xs">Multi-Tenant Scoping</span>
+                <p className="text-slate-400 text-[11px] leading-relaxed">
+                  Pass <span className="font-mono font-bold text-cyan-300">application_id</span> to isolate telemetry, rules, and rate limiters.
                 </p>
               </div>
 
-              <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-1">
-                <div className="text-[10px] font-bold text-slate-400 uppercase">Pattern 03</div>
-                <span className="font-bold text-slate-900 block text-xs">Fail-Closed Enforcement</span>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
+              <div className="bg-[#080D1A] p-3.5 rounded-lg border border-slate-800 space-y-1">
+                <div className="text-[10px] font-bold text-cyan-400 uppercase font-mono">Pattern 03</div>
+                <span className="font-bold text-white block text-xs">Fail-Closed Enforcement</span>
+                <p className="text-slate-400 text-[11px] leading-relaxed">
                   On attack detection, downstream LLM is never invoked, saving GPU tokens and blocking prompt leak.
                 </p>
               </div>
@@ -481,9 +481,9 @@ curl -X POST http://localhost:3000/api/inspect \\
           </div>
 
           {/* Code Snippets Workbench */}
-          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 sm:px-5 py-3 border-b border-slate-200 bg-slate-50 gap-3">
-              <div className="flex items-center space-x-1 overflow-x-auto pb-1 sm:pb-0 whitespace-nowrap">
+          <div className="bg-[#0F172A] border border-slate-800/80 rounded-xl overflow-hidden shadow-md">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 sm:px-5 py-3 border-b border-slate-800 bg-[#080D1A] gap-3">
+              <div className="flex items-center space-x-1 overflow-x-auto pb-1 sm:pb-0 whitespace-nowrap font-mono">
                 {[
                   { id: 'python', label: 'Python (FastAPI)' },
                   { id: 'nodejs', label: 'Node.js (Express)' },
@@ -495,8 +495,8 @@ curl -X POST http://localhost:3000/api/inspect \\
                     onClick={() => setActiveLang(lang.id as any)}
                     className={`px-3 py-1 rounded text-xs font-semibold transition-all cursor-pointer shrink-0 ${
                       activeLang === lang.id
-                        ? 'bg-white text-blue-600 border border-slate-300 shadow-2xs font-bold'
-                        : 'text-slate-600 hover:text-slate-900'
+                        ? 'bg-[#111A2E] text-cyan-300 border border-cyan-500/40 shadow-xs font-bold'
+                        : 'text-slate-400 hover:text-slate-200'
                     }`}
                   >
                     {lang.label}
@@ -506,23 +506,23 @@ curl -X POST http://localhost:3000/api/inspect \\
 
               <button
                 onClick={handleCopy}
-                className="flex items-center justify-center gap-1.5 text-xs text-slate-700 hover:text-slate-900 px-3 py-1 rounded bg-white border border-slate-200 transition-all cursor-pointer font-semibold shadow-2xs self-start sm:self-auto"
+                className="flex items-center justify-center gap-1.5 text-xs text-slate-200 hover:text-white px-3 py-1 rounded bg-[#111A2E] border border-slate-700/80 hover:border-cyan-500/40 transition-all cursor-pointer font-semibold shadow-xs self-start sm:self-auto font-mono"
               >
                 {copied ? (
                   <>
-                    <Check className="h-3.5 w-3.5 text-emerald-600" />
-                    <span className="text-emerald-700 font-bold">Copied!</span>
+                    <Check className="h-3.5 w-3.5 text-emerald-400" />
+                    <span className="text-emerald-300 font-bold">Copied!</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="h-3.5 w-3.5" />
+                    <Copy className="h-3.5 w-3.5 text-cyan-400" />
                     <span>Copy Code</span>
                   </>
                 )}
               </button>
             </div>
 
-            <pre className="p-4 sm:p-5 text-xs font-mono text-slate-100 bg-[#0F172A] overflow-x-auto leading-relaxed">
+            <pre className="p-4 sm:p-5 text-xs font-mono text-cyan-300 bg-[#050913] overflow-x-auto leading-relaxed max-h-[350px]">
               <code>{SNIPPETS[activeLang]}</code>
             </pre>
           </div>

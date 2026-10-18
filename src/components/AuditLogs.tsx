@@ -101,14 +101,14 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
   return (
     <div className="space-y-5">
       {/* High Density Header & Filter Section */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-5 space-y-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4 border-b border-slate-100 pb-4">
+      <div className="bg-[#0F172A] rounded-xl shadow-md border border-slate-800/80 p-4 sm:p-5 space-y-4">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4 border-b border-slate-800 pb-4">
           <div>
-            <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+            <h2 className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-0.5 font-mono">
               Forensic Trail
             </h2>
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <FileText className="h-4 w-4 text-blue-600 shrink-0" />
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <FileText className="h-4 w-4 text-cyan-400 shrink-0" />
               <span>Security Audit Event Stream</span>
             </h3>
           </div>
@@ -116,11 +116,11 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
           {/* Privacy & Export buttons */}
           <div className="flex flex-wrap items-center gap-2">
             {/* Privacy Toggle */}
-            <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs">
+            <div className="flex items-center bg-[#080D1A] p-0.5 rounded-lg border border-slate-800 text-xs font-mono">
               <button
                 onClick={() => setPrivacyMode('raw')}
                 className={`px-2 sm:px-2.5 py-1 rounded flex items-center gap-1 cursor-pointer transition-all ${
-                  privacyMode === 'raw' ? 'bg-white text-blue-600 font-bold shadow-2xs' : 'text-slate-600'
+                  privacyMode === 'raw' ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold shadow-xs' : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <Eye className="h-3 w-3 shrink-0" />
@@ -129,7 +129,7 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
               <button
                 onClick={() => setPrivacyMode('masked')}
                 className={`px-2 sm:px-2.5 py-1 rounded flex items-center gap-1 cursor-pointer transition-all ${
-                  privacyMode === 'masked' ? 'bg-white text-blue-600 font-bold shadow-2xs' : 'text-slate-600'
+                  privacyMode === 'masked' ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold shadow-xs' : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <Lock className="h-3 w-3 shrink-0" />
@@ -138,7 +138,7 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
               <button
                 onClick={() => setPrivacyMode('hash')}
                 className={`px-2 sm:px-2.5 py-1 rounded flex items-center gap-1 cursor-pointer transition-all ${
-                  privacyMode === 'hash' ? 'bg-white text-blue-600 font-bold shadow-2xs' : 'text-slate-600'
+                  privacyMode === 'hash' ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold shadow-xs' : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <Hash className="h-3 w-3 shrink-0" />
@@ -149,40 +149,40 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
             {/* Live Stream Auto-Refresh Toggle */}
             <button
               onClick={() => setAutoRefresh(!autoRefresh)}
-              className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all border cursor-pointer shadow-2xs ${
+              className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all border cursor-pointer font-mono ${
                 autoRefresh
-                  ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
-                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/25'
+                  : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700'
               }`}
               title={autoRefresh ? 'Live Auto-Polling Active (1.5s)' : 'Live Auto-Polling Paused'}
             >
-              <span className={`inline-block w-2 h-2 rounded-full ${autoRefresh ? 'bg-emerald-500 animate-ping' : 'bg-slate-400'}`} />
+              <span className={`inline-block w-2 h-2 rounded-full ${autoRefresh ? 'bg-emerald-400 animate-ping' : 'bg-slate-500'}`} />
               <span>{autoRefresh ? 'Live Feed (1.5s)' : 'Live Paused'}</span>
             </button>
 
             {/* Manual Refresh */}
             <button
               onClick={() => fetchLogs(false)}
-              className="p-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg border border-slate-200 text-xs transition-all cursor-pointer shadow-2xs"
+              className="p-1.5 bg-[#111A2E] hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg border border-slate-700/80 text-xs transition-all cursor-pointer"
               title="Refresh Logs Manually"
             >
-              <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin text-blue-600' : ''}`} />
+              <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
             </button>
 
             {/* Export buttons */}
             <div className="flex items-center gap-1">
               <button
                 onClick={() => handleExport('csv')}
-                className="px-2.5 sm:px-3 py-1 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg border border-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
+                className="px-2.5 sm:px-3 py-1 bg-[#111A2E] hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg border border-slate-700/80 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer font-mono"
               >
-                <Download className="h-3.5 w-3.5" />
+                <Download className="h-3.5 w-3.5 text-cyan-400" />
                 <span>CSV</span>
               </button>
               <button
                 onClick={() => handleExport('json')}
-                className="px-2.5 sm:px-3 py-1 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg border border-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
+                className="px-2.5 sm:px-3 py-1 bg-[#111A2E] hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg border border-slate-700/80 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer font-mono"
               >
-                <Download className="h-3.5 w-3.5" />
+                <Download className="h-3.5 w-3.5 text-cyan-400" />
                 <span>JSON</span>
               </button>
             </div>
@@ -190,16 +190,16 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
         </div>
 
         {/* Filter Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center pt-1">
+        <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center pt-1 font-mono">
           {/* Search */}
           <div className="sm:col-span-6 relative">
-            <Search className="h-3.5 w-3.5 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+            <Search className="h-3.5 w-3.5 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search prompt payload, event ID, or category..."
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-white"
+              className="w-full bg-[#080D1A] border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30 transition-colors"
             />
           </div>
 
@@ -208,7 +208,7 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
             <select
               value={actionFilter}
               onChange={(e) => setActionFilter(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer font-medium"
+              className="w-full bg-[#080D1A] border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30 cursor-pointer font-medium transition-colors"
             >
               <option value="ALL">Decision: All Actions</option>
               <option value="ALLOW">ALLOW Only</option>
@@ -222,7 +222,7 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
             <select
               value={riskFilter}
               onChange={(e) => setRiskFilter(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer font-medium"
+              className="w-full bg-[#080D1A] border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30 cursor-pointer font-medium transition-colors"
             >
               <option value="ALL">Risk: All Tiers</option>
               <option value="LOW">LOW Risk</option>
@@ -234,31 +234,31 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
       </div>
 
       {newLogFlash && (
-        <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center justify-between shadow-md animate-pulse">
+        <div className="bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-cyan-500/50 text-cyan-200 text-xs font-bold px-4 py-2.5 rounded-xl flex items-center justify-between shadow-md shadow-cyan-950/50 animate-pulse font-mono">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
             <span>⚡ New Prompt Intercepted & Processed in Real-Time!</span>
           </div>
-          <span className="text-[10px] bg-black/20 px-2 py-0.5 rounded tracking-wider uppercase font-extrabold">Instant Feed</span>
+          <span className="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 px-2 py-0.5 rounded tracking-wider uppercase font-bold">Instant Feed</span>
         </div>
       )}
 
       {/* High Density Logs Table */}
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-[#0F172A] border border-slate-800/80 rounded-xl overflow-hidden shadow-md">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-700">
-            <thead className="bg-slate-50 border-b border-slate-200 uppercase tracking-wider text-[10px] text-slate-500 font-bold">
+          <table className="w-full text-left text-xs text-slate-300">
+            <thead className="bg-[#080D1A] border-b border-slate-800 uppercase tracking-wider text-[10px] text-slate-400 font-mono font-bold">
               <tr>
-                <th className="px-4 py-2.5">Timestamp / ID</th>
-                <th className="px-4 py-2.5">App Scope</th>
-                <th className="px-4 py-2.5">Decision</th>
-                <th className="px-4 py-2.5">Score</th>
-                <th className="px-4 py-2.5">Prompt Excerpt</th>
-                <th className="px-4 py-2.5">Review Status</th>
-                <th className="px-4 py-2.5 text-right">Details</th>
+                <th className="px-4 py-3">Timestamp / ID</th>
+                <th className="px-4 py-3">App Scope</th>
+                <th className="px-4 py-3">Decision</th>
+                <th className="px-4 py-3">Score</th>
+                <th className="px-4 py-3">Prompt Excerpt</th>
+                <th className="px-4 py-3">Review Status</th>
+                <th className="px-4 py-3 text-right">Details</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-800/60 font-sans">
               {logs.length > 0 ? (
                 logs.map((log) => {
                   const d = new Date(log.timestamp);
@@ -271,25 +271,25 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
                         setSelectedLog(log);
                         setReviewNotes(log.reviewNotes || '');
                       }}
-                      className="hover:bg-slate-50 cursor-pointer transition-colors"
+                      className="hover:bg-[#131F37] cursor-pointer transition-colors"
                     >
                       <td className="px-4 py-2.5 font-mono text-[11px] whitespace-nowrap">
-                        <div className="font-bold text-slate-900">{timeFormatted}</div>
-                        <div className="text-[10px] text-slate-400 truncate max-w-[100px]">{log.id}</div>
+                        <div className="font-bold text-white">{timeFormatted}</div>
+                        <div className="text-[10px] text-slate-500 truncate max-w-[100px]">{log.id}</div>
                       </td>
                       <td className="px-4 py-2.5 whitespace-nowrap">
-                        <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 text-[10px] font-mono font-medium">
+                        <span className="px-2 py-0.5 rounded bg-[#111A2E] text-slate-300 border border-slate-700/70 text-[10px] font-mono font-medium">
                           {log.applicationId}
                         </span>
                       </td>
-                      <td className="px-4 py-2.5 whitespace-nowrap">
+                      <td className="px-4 py-2.5 whitespace-nowrap font-mono">
                         <span
                           className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${
                             log.action === 'BLOCK'
-                              ? 'bg-rose-50 text-rose-700 border-rose-200'
+                              ? 'bg-rose-500/15 text-rose-400 border-rose-500/30'
                               : log.action === 'WARN'
-                              ? 'bg-amber-50 text-amber-700 border-amber-200'
-                              : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                              ? 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+                              : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
                           }`}
                         >
                           {log.action}
@@ -299,43 +299,43 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
                         <span
                           className={
                             log.threatScore >= 70
-                              ? 'text-rose-600'
+                              ? 'text-rose-400'
                               : log.threatScore >= 40
-                              ? 'text-amber-600'
-                              : 'text-emerald-600'
+                              ? 'text-amber-400'
+                              : 'text-emerald-400'
                           }
                         >
                           {log.threatScore}
                         </span>
-                        <span className="text-[10px] text-slate-400 font-normal">/100</span>
+                        <span className="text-[10px] text-slate-500 font-normal">/100</span>
                       </td>
-                      <td className="px-4 py-2.5 max-w-xs sm:max-w-md truncate font-mono text-slate-800 text-[11px]">
+                      <td className="px-4 py-2.5 max-w-xs sm:max-w-md truncate font-mono text-slate-300 text-[11px]">
                         {getDisplayPrompt(log)}
                       </td>
-                      <td className="px-4 py-2.5 whitespace-nowrap">
+                      <td className="px-4 py-2.5 whitespace-nowrap font-mono">
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase border ${
                             log.reviewStatus === 'CONFIRMED_ATTACK'
-                              ? 'bg-rose-100 text-rose-800'
+                              ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
                               : log.reviewStatus === 'FALSE_POSITIVE'
-                              ? 'bg-purple-100 text-purple-800'
+                              ? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
                               : log.reviewStatus === 'LEGITIMATE'
-                              ? 'bg-emerald-100 text-emerald-800'
-                              : 'bg-slate-100 text-slate-600'
+                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                              : 'bg-slate-800 text-slate-400 border-slate-700'
                           }`}
                         >
                           {log.reviewStatus}
                         </span>
                       </td>
                       <td className="px-4 py-2.5 text-right">
-                        <ChevronRight className="h-4 w-4 text-slate-400 inline" />
+                        <ChevronRight className="h-4 w-4 text-slate-500 inline" />
                       </td>
                     </tr>
                   );
                 })
               ) : (
                 <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-slate-400">
+                  <td colSpan={7} className="px-4 py-12 text-center text-slate-500 font-mono text-xs">
                     No security events found matching current criteria.
                   </td>
                 </tr>
@@ -347,74 +347,78 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
 
       {/* Forensic Modal */}
       {selectedLog && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-2xs flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 shadow-xl">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-[#0F172A] border border-slate-700/90 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 space-y-4 shadow-2xl text-slate-200">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">
-                <ShieldAlert className="h-5 w-5 text-blue-600" />
-                <h3 className="font-bold text-slate-900 text-base">Security Event Forensics</h3>
+                <ShieldAlert className="h-5 w-5 text-cyan-400" />
+                <h3 className="font-bold text-white text-base font-mono">Security Event Forensics</h3>
               </div>
               <button
                 onClick={() => setSelectedLog(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-all cursor-pointer"
+                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
             {/* Top summary row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                <span className="text-slate-400 block text-[10px] font-bold uppercase">Decision:</span>
-                <span className="font-bold text-slate-900">{selectedLog.action}</span>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
+              <div className="bg-[#080D1A] p-2.5 rounded-lg border border-slate-800">
+                <span className="text-slate-500 block text-[10px] font-bold uppercase">Decision:</span>
+                <span className={`font-bold uppercase ${
+                  selectedLog.action === 'BLOCK' ? 'text-rose-400' : selectedLog.action === 'WARN' ? 'text-amber-400' : 'text-emerald-400'
+                }`}>{selectedLog.action}</span>
               </div>
-              <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                <span className="text-slate-400 block text-[10px] font-bold uppercase">Threat Score:</span>
-                <span className="font-bold text-amber-600 font-mono">{selectedLog.threatScore}/100</span>
+              <div className="bg-[#080D1A] p-2.5 rounded-lg border border-slate-800">
+                <span className="text-slate-500 block text-[10px] font-bold uppercase">Threat Score:</span>
+                <span className="font-bold text-amber-400">{selectedLog.threatScore}/100</span>
               </div>
-              <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                <span className="text-slate-400 block text-[10px] font-bold uppercase">Latency Overhead:</span>
-                <span className="font-bold text-blue-600 font-mono">{selectedLog.latencyMs} ms</span>
+              <div className="bg-[#080D1A] p-2.5 rounded-lg border border-slate-800">
+                <span className="text-slate-500 block text-[10px] font-bold uppercase">Latency Overhead:</span>
+                <span className="font-bold text-cyan-400">{selectedLog.latencyMs} ms</span>
               </div>
-              <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                <span className="text-slate-400 block text-[10px] font-bold uppercase">Downstream:</span>
-                <span className="font-bold text-slate-800">{selectedLog.downstreamCalled ? 'Yes' : 'No (Blocked)'}</span>
+              <div className="bg-[#080D1A] p-2.5 rounded-lg border border-slate-800">
+                <span className="text-slate-500 block text-[10px] font-bold uppercase">Downstream:</span>
+                <span className="font-bold text-slate-200">{selectedLog.downstreamCalled ? 'Yes (Forwarded)' : 'No (Halted)'}</span>
               </div>
             </div>
 
             {/* Prompt Content */}
             <div className="space-y-1">
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-500">
+              <div className="flex items-center justify-between text-xs font-semibold text-slate-400 font-mono">
                 <span>Inspected Prompt Payload:</span>
-                <span className="font-mono text-[10px] text-slate-400">SHA-256: {selectedLog.promptHash}</span>
+                <span className="text-[10px] text-cyan-400 truncate max-w-[200px]">SHA-256: {selectedLog.promptHash}</span>
               </div>
-              <div className="bg-slate-900 p-3 rounded-lg border border-slate-800 text-xs font-mono text-slate-100 max-h-32 overflow-y-auto whitespace-pre-wrap">
+              <div className="bg-[#080D1A] p-3 rounded-lg border border-slate-800 text-xs font-mono text-slate-100 max-h-32 overflow-y-auto whitespace-pre-wrap leading-relaxed shadow-inner">
                 {selectedLog.prompt}
               </div>
             </div>
 
             {/* Detections breakdown */}
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-slate-700 block uppercase tracking-wider text-[10px]">
+            <div className="space-y-2 font-mono">
+              <span className="text-xs font-bold text-slate-400 block uppercase tracking-wider text-[10px]">
                 Triggered Rule Signatures:
               </span>
               {selectedLog.detections && selectedLog.detections.length > 0 ? (
                 <div className="space-y-2">
                   {selectedLog.detections.map((det, i) => (
-                    <div key={i} className="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs space-y-1">
-                      <div className="flex items-center justify-between font-bold text-rose-700">
+                    <div key={i} className="bg-[#080D1A] p-2.5 rounded-lg border border-slate-800 text-xs space-y-1">
+                      <div className="flex items-center justify-between font-bold text-rose-400">
                         <span>{det.category}</span>
-                        <span className="font-mono text-[10px] text-rose-800">Severity: +{det.severity}</span>
+                        <span className="text-[10px] text-rose-300">Severity: +{det.severity}</span>
                       </div>
-                      <p className="text-slate-600 text-[11px]">{det.description}</p>
-                      <div className="bg-slate-900 p-1.5 rounded font-mono text-[10px] text-amber-300">
-                        Snippet: "{det.matchedSnippet}"
-                      </div>
+                      <p className="text-slate-300 text-[11px] font-sans">{det.description}</p>
+                      {det.matchedSnippet && (
+                        <div className="bg-[#050913] p-1.5 rounded text-[10px] text-amber-300 border border-slate-800/80">
+                          Snippet: "{det.matchedSnippet}"
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs text-slate-500">
+                <div className="bg-[#080D1A] p-2.5 rounded-lg border border-slate-800 text-xs text-slate-500 font-sans">
                   No explicit pattern rules triggered. Decision based on standard threshold.
                 </div>
               )}
@@ -422,37 +426,37 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
 
             {/* AI Guardrail Inspection section */}
             {selectedLog.aiInspection && (
-              <div className="space-y-2 p-3 bg-purple-50/60 rounded-xl border border-purple-200 text-xs">
+              <div className="space-y-2 p-3 bg-purple-950/30 rounded-xl border border-purple-500/30 text-xs font-mono">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 font-bold text-purple-900">
-                    <Sparkles className="h-4 w-4 text-purple-600" />
+                  <div className="flex items-center gap-1.5 font-bold text-purple-300">
+                    <Sparkles className="h-4 w-4 text-purple-400" />
                     <span>AI Guardrail Analysis ({selectedLog.aiInspection.analyzedBy})</span>
                   </div>
                   <span
-                    className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                    className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${
                       selectedLog.aiInspection.isSuspicious
-                        ? 'bg-rose-100 text-rose-800'
-                        : 'bg-emerald-100 text-emerald-800'
+                        ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+                        : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
                     }`}
                   >
                     {selectedLog.aiInspection.isSuspicious ? 'Suspicious' : 'Benign'} ({Math.round(selectedLog.aiInspection.confidence * 100)}%)
                   </span>
                 </div>
-                <div className="bg-white p-2 rounded border border-purple-100 text-slate-800 space-y-1">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Intent:</span>
-                  <div className="font-medium text-slate-900">{selectedLog.aiInspection.detectedIntent}</div>
+                <div className="bg-[#080D1A] p-2 rounded border border-slate-800 text-slate-300 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-500 block">Intent:</span>
+                  <div className="font-medium text-slate-100 font-sans">{selectedLog.aiInspection.detectedIntent}</div>
                 </div>
-                <div className="bg-white p-2 rounded border border-purple-100 text-slate-700 space-y-1">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Reasoning:</span>
-                  <div className="text-slate-600 leading-relaxed text-[11px]">{selectedLog.aiInspection.reasoning}</div>
+                <div className="bg-[#080D1A] p-2 rounded border border-slate-800 text-slate-400 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-500 block">Reasoning:</span>
+                  <div className="text-slate-300 leading-relaxed text-[11px] font-sans">{selectedLog.aiInspection.reasoning}</div>
                 </div>
               </div>
             )}
 
             {/* Analyst Review Section */}
-            <div className="border-t border-slate-100 pt-3 space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
-                <Tag className="h-4 w-4 text-blue-600" />
+            <div className="border-t border-slate-800 pt-3 space-y-3 bg-[#080D1A] p-4 rounded-xl border border-slate-800 font-mono">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-200">
+                <Tag className="h-4 w-4 text-cyan-400" />
                 <span>Analyst Review & Precision Tuning</span>
               </div>
 
@@ -462,8 +466,8 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
                   disabled={savingReview}
                   className={`px-3 py-1.5 rounded text-xs font-bold border transition-all cursor-pointer ${
                     selectedLog.reviewStatus === 'CONFIRMED_ATTACK'
-                      ? 'bg-rose-600 text-white border-rose-700 shadow-2xs'
-                      : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                      ? 'bg-rose-600 text-white border-rose-500 shadow-xs'
+                      : 'bg-[#111A2E] text-slate-300 border-slate-700 hover:bg-slate-800 hover:text-white'
                   }`}
                 >
                   🔴 Confirmed Attack
@@ -473,8 +477,8 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
                   disabled={savingReview}
                   className={`px-3 py-1.5 rounded text-xs font-bold border transition-all cursor-pointer ${
                     selectedLog.reviewStatus === 'FALSE_POSITIVE'
-                      ? 'bg-purple-600 text-white border-purple-700 shadow-2xs'
-                      : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                      ? 'bg-purple-600 text-white border-purple-500 shadow-xs'
+                      : 'bg-[#111A2E] text-slate-300 border-slate-700 hover:bg-slate-800 hover:text-white'
                   }`}
                 >
                   🟣 False Positive
@@ -484,8 +488,8 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
                   disabled={savingReview}
                   className={`px-3 py-1.5 rounded text-xs font-bold border transition-all cursor-pointer ${
                     selectedLog.reviewStatus === 'LEGITIMATE'
-                      ? 'bg-emerald-600 text-white border-emerald-700 shadow-2xs'
-                      : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                      ? 'bg-emerald-600 text-white border-emerald-500 shadow-xs'
+                      : 'bg-[#111A2E] text-slate-300 border-slate-700 hover:bg-slate-800 hover:text-white'
                   }`}
                 >
                   🟢 Legitimate Prompt
@@ -501,7 +505,7 @@ export const AuditLogs: React.FC<AuditLogsProps> = ({ selectedApp }) => {
                   value={reviewNotes}
                   onChange={(e) => setReviewNotes(e.target.value)}
                   placeholder="e.g., Prompt contained academic question, safe to lower weight on override keyword..."
-                  className="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full bg-[#0F172A] border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-cyan-500 font-sans"
                 />
               </div>
             </div>

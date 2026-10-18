@@ -10,10 +10,21 @@ import {
   Shield,
   Zap,
   Server,
+  Terminal,
   X,
+  FlaskConical,
 } from 'lucide-react';
 
-export type ActiveTab = 'playground' | 'analytics' | 'logs' | 'rules' | 'testsuite' | 'integration' | 'codesecurity' | 'insec';
+export type ActiveTab =
+  | 'playground'
+  | 'analytics'
+  | 'logs'
+  | 'rules'
+  | 'testsuite'
+  | 'integration'
+  | 'codesecurity'
+  | 'insec'
+  | 'research';
 
 interface SidebarProps {
   activeTab: ActiveTab;
@@ -60,8 +71,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
         
         { id: 'integration', label: 'Middleware SDK', icon: Code2, tag: null },
         
-{ id: 'codesecurity', label: 'Code Security Analysis', icon: ShieldCheck, tag: 'CodeQL' },
-{ id: 'insec', label: 'INSEC Evaluation', icon: ShieldCheck, tag: 'INSEC' },
+        { id: 'codesecurity', label: 'Code Security Analysis', icon: Terminal, tag: 'CodeQL' },
+        { id: 'insec', label: 'INSEC Evaluation', icon: Layers, tag: 'INSEC' },
+        { id: 'research', label: 'Research Workflow', icon: FlaskConical, tag: 'Research' },
 
 
       ],
@@ -90,20 +102,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-72 sm:w-64 bg-[#0F172A] text-slate-300 flex flex-col shrink-0 h-full border-r border-slate-800 selection:bg-blue-600 selection:text-white transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
-          mobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'
+        className={`fixed inset-y-0 left-0 z-50 w-72 sm:w-64 bg-[#0A101F] text-slate-300 flex flex-col shrink-0 h-full border-r border-slate-800/80 selection:bg-cyan-500/30 selection:text-white transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
+          mobileOpen ? 'translate-x-0 shadow-2xl shadow-black/60' : '-translate-x-full lg:translate-x-0'
         }`}
       >
         {/* Brand Header */}
-        <div className="p-4 border-b border-slate-800 flex items-center justify-between">
+        <div className="p-4 border-b border-slate-800/80 flex items-center justify-between bg-[#080D1A]">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white shadow-sm ring-1 ring-blue-400/30">
+            <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center font-bold text-white shadow-sm shadow-cyan-900/40 ring-1 ring-cyan-400/30">
               <Shield className="h-4 w-4 text-white" />
             </div>
             <div>
-              <div className="font-bold text-white text-sm tracking-tight flex items-center gap-1.5">
+              <div className="font-bold text-white text-sm tracking-tight flex items-center gap-1.5 font-mono">
                 <span>PromptGuard</span>
-                <span className="text-[10px] px-1.5 py-0.2 bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded font-mono">
+                <span className="text-[10px] px-1.5 py-0.2 bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 rounded font-mono font-bold">
                   v1.0
                 </span>
               </div>
@@ -116,7 +128,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Close button for mobile drawer */}
           <button
             onClick={onCloseMobile}
-            className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg lg:hidden transition-colors cursor-pointer"
+            className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800/80 rounded-lg lg:hidden transition-colors cursor-pointer"
             aria-label="Close navigation menu"
           >
             <X className="h-5 w-5" />
@@ -124,22 +136,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* App Scope Tenant Selector */}
-        <div className="p-3 border-b border-slate-800/80 bg-slate-900/50">
-          <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold px-1 mb-1.5 flex items-center justify-between">
-            <span className="flex items-center gap-1">
+        <div className="p-3 border-b border-slate-800/80 bg-[#0A101F]">
+          <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold px-1 mb-1.5 flex items-center justify-between font-mono">
+            <span className="flex items-center gap-1.5 text-slate-300">
               <Layers className="h-3 w-3 text-cyan-400" />
               <span>Target Application</span>
             </span>
-            <span className="text-[9px] text-slate-500 font-mono font-normal">Tenant</span>
+            <span className="text-[9px] text-cyan-500/80 font-mono font-medium">Tenant</span>
           </div>
           <select
             id="sidebar-app-select"
             value={selectedApp}
             onChange={(e) => setSelectedApp(e.target.value)}
-            className="w-full bg-[#1E293B] border border-slate-700/80 rounded-md px-2.5 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer font-medium"
+            className="w-full bg-[#111A2E] border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 cursor-pointer font-medium transition-colors"
           >
             {apps.map((app) => (
-              <option key={app.id} value={app.id} className="bg-[#0F172A] text-slate-200">
+              <option key={app.id} value={app.id} className="bg-[#0B1120] text-slate-200">
                 {app.label}
               </option>
             ))}
@@ -150,7 +162,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <nav className="flex-1 p-3 space-y-4 overflow-y-auto">
           {navGroups.map((group, idx) => (
             <div key={idx} className="space-y-1">
-              <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold px-2 mb-1.5">
+              <div className="text-[10px] uppercase tracking-wider text-slate-500 font-bold px-2 mb-1.5 font-mono">
                 {group.group}
               </div>
               {group.items.map((item) => {
@@ -161,22 +173,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     key={item.id}
                     id={`sidebar-tab-${item.id}`}
                     onClick={() => handleTabClick(item.id as ActiveTab)}
-                    className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-colors cursor-pointer text-left ${
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer text-left ${
                       isActive
-                        ? 'bg-blue-600 text-white shadow-sm'
-                        : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
+                        ? 'bg-gradient-to-r from-blue-600/25 to-cyan-600/15 text-cyan-300 border border-cyan-500/40 shadow-xs font-semibold'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200 border border-transparent'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                      <Icon className={`h-4 w-4 ${isActive ? 'text-cyan-400' : 'text-slate-500'}`} />
                       <span>{item.label}</span>
                     </div>
                     {item.tag && (
                       <span
-                        className={`text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                        className={`text-[9px] font-bold font-mono px-1.5 py-0.5 rounded uppercase ${
                           isActive
-                            ? 'bg-blue-700 text-white'
-                            : 'bg-slate-800 text-cyan-400 border border-slate-700'
+                            ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                            : 'bg-slate-800/90 text-slate-400 border border-slate-700/80'
                         }`}
                       >
                         {item.tag}
@@ -190,52 +202,53 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
 
         {/* Gateway Health Mini Widget */}
-        <div className="p-3 border-t border-slate-800 bg-[#1E293B]/60 space-y-2.5">
-          <div className="flex items-center justify-between text-xs">
+        <div className="p-3 border-t border-slate-800/80 bg-[#080D1A] space-y-2.5">
+          <div className="flex items-center justify-between text-xs font-mono">
             <div className="flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[11px] font-bold text-white uppercase tracking-tight">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shadow-xs shadow-emerald-400" />
+              <span className="text-[11px] font-bold text-slate-200 uppercase tracking-tight">
                 Gateway Health
               </span>
             </div>
             <span className="text-[10px] font-mono text-emerald-400 font-bold">{safeRate}% Normal</span>
           </div>
 
-          <div className="w-full h-1.5 bg-slate-700 rounded-full overflow-hidden">
+          <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
             <div
-              className="h-full bg-emerald-400 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.5)] transition-all duration-500"
+              className="h-full bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.4)] transition-all duration-500"
               style={{ width: `${safeRate}%` }}
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-2 pt-1 text-center">
-            <div className="bg-[#0F172A]/70 p-1.5 rounded border border-slate-800">
-              <div className="text-[10px] text-slate-400 uppercase font-semibold">Attacks Blocked</div>
-              <div className="text-xs font-bold text-rose-400 font-mono">
+          <div className="grid grid-cols-2 gap-2 pt-1 text-center font-mono">
+            <div className="bg-[#0D1527] p-2 rounded-lg border border-slate-800/90">
+              <div className="text-[9px] text-slate-400 uppercase font-semibold">Attacks Blocked</div>
+              <div className="text-xs font-bold text-rose-400">
                 {stats?.blockRatePercent ?? 12}%
               </div>
             </div>
 
-            <div className="bg-[#0F172A]/70 p-1.5 rounded border border-slate-800">
-              <div className="text-[10px] text-slate-400 uppercase font-semibold">Fail-Closed</div>
-              <div className="text-xs font-bold text-emerald-400 font-mono">Armed</div>
+            <div className="bg-[#0D1527] p-2 rounded-lg border border-slate-800/90">
+              <div className="text-[9px] text-slate-400 uppercase font-semibold">Fail-Closed</div>
+              <div className="text-xs font-bold text-emerald-400">Armed</div>
             </div>
           </div>
         </div>
 
         {/* Bottom User / Integration Status */}
-        <div className="p-3 border-t border-slate-800 flex items-center justify-between">
+        <div className="p-3 border-t border-slate-800/80 bg-[#080D1A] flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-slate-700 flex items-center justify-center text-[10px] font-bold text-white">
+            <div className="w-6 h-6 rounded-md bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white border border-slate-700/60">
               <Server className="h-3 w-3 text-cyan-400" />
             </div>
             <div className="text-[11px]">
-              <div className="text-white font-medium">Gemini 3.7 Flash</div>
-              <div className="text-[10px] text-slate-400">Protected Target</div>
+              <div className="text-slate-200 font-medium">Gemini 3.7 Flash</div>
+              <div className="text-[10px] text-slate-500 font-mono">Target Engine</div>
             </div>
           </div>
-          <div className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
-            Online
+          <div className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 inline-block" />
+            <span>Online</span>
           </div>
         </div>
       </aside>

@@ -115,36 +115,40 @@ export const RulesAndSettings: React.FC = () => {
   };
 
   if (!settings) {
-    return <div className="p-12 text-center text-slate-500 bg-white rounded-xl border border-slate-200">Loading firewall configuration...</div>;
+    return (
+      <div className="p-16 text-center text-slate-400 bg-[#0F172A] rounded-xl border border-slate-800/80 font-mono text-sm">
+        Loading firewall configuration...
+      </div>
+    );
   }
 
   return (
     <div className="space-y-5">
       {/* High Density Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0F172A] rounded-xl shadow-md border border-slate-800/80 p-5">
         <div>
-          <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+          <h2 className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-0.5 font-mono">
             Engine Configuration
           </h2>
-          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <Sliders className="h-4 w-4 text-blue-600" />
+          <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <Sliders className="h-4 w-4 text-cyan-400" />
             <span>Firewall Rules & Decision Thresholds</span>
           </h3>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-400 mt-0.5">
             Tune scoring weights, risk classification cutoffs, and fail-safe security policies.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           {savedSuccess && (
-            <span className="text-xs text-emerald-600 flex items-center gap-1 font-bold">
-              <CheckCircle2 className="h-4 w-4" />
+            <span className="text-xs text-emerald-400 flex items-center gap-1 font-bold font-mono">
+              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
               <span>Settings Saved!</span>
             </span>
           )}
           <button
             onClick={handleSaveSettings}
-            className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow-sm transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white rounded-lg text-xs font-bold shadow-md shadow-blue-900/40 transition-all cursor-pointer font-mono"
           >
             <Save className="h-3.5 w-3.5" />
             <span>Save Configuration</span>
@@ -156,13 +160,13 @@ export const RulesAndSettings: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Left: Cutoffs and Policy */}
         <div className="lg:col-span-6 space-y-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
-            <div className="border-b border-slate-100 pb-3">
-              <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+          <div className="bg-[#0F172A] border border-slate-800/80 rounded-xl p-5 shadow-md space-y-4 font-mono">
+            <div className="border-b border-slate-800 pb-3">
+              <h2 className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-0.5">
                 Scoring Cutoffs
               </h2>
-              <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
-                <Shield className="h-4 w-4 text-blue-600" />
+              <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                <Shield className="h-4 w-4 text-cyan-400" />
                 <span>Decision Threshold Sliders (0 - 100)</span>
               </h3>
             </div>
@@ -171,8 +175,10 @@ export const RulesAndSettings: React.FC = () => {
             <div className="space-y-4 pt-1">
               <div className="space-y-1.5">
                 <div className="flex justify-between text-xs font-semibold">
-                  <span className="text-slate-700">ALLOW / WARN Threshold:</span>
-                  <span className="text-amber-600 font-mono font-bold">{settings.lowThreshold} / 100</span>
+                  <span className="text-slate-300">ALLOW / WARN Threshold:</span>
+                  <span className="text-amber-400 font-mono font-bold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
+                    {settings.lowThreshold} / 100
+                  </span>
                 </div>
                 <input
                   type="range"
@@ -183,17 +189,19 @@ export const RulesAndSettings: React.FC = () => {
                   onChange={(e) =>
                     setSettings({ ...settings, lowThreshold: parseInt(e.target.value, 10) })
                   }
-                  className="w-full accent-amber-500 cursor-pointer"
+                  className="w-full accent-amber-400 cursor-pointer"
                 />
-                <span className="text-[11px] text-slate-500 block">
+                <span className="text-[11px] text-slate-500 block font-sans">
                   Prompts scoring below this are ALLOWED immediately. Scores at or above trigger WARN.
                 </span>
               </div>
 
               <div className="space-y-1.5">
                 <div className="flex justify-between text-xs font-semibold">
-                  <span className="text-slate-700">WARN / BLOCK Cutoff:</span>
-                  <span className="text-rose-600 font-mono font-bold">{settings.blockThreshold} / 100</span>
+                  <span className="text-slate-300">WARN / BLOCK Cutoff:</span>
+                  <span className="text-rose-400 font-mono font-bold bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30">
+                    {settings.blockThreshold} / 100
+                  </span>
                 </div>
                 <input
                   type="range"
@@ -206,7 +214,7 @@ export const RulesAndSettings: React.FC = () => {
                   }
                   className="w-full accent-rose-500 cursor-pointer"
                 />
-                <span className="text-[11px] text-slate-500 block">
+                <span className="text-[11px] text-slate-500 block font-sans">
                   Prompts scoring at or above this are completely BLOCKED (Downstream LLM never called).
                 </span>
               </div>
@@ -214,15 +222,15 @@ export const RulesAndSettings: React.FC = () => {
 
             {/* Visual Risk Bands */}
             <div className="pt-2">
-              <div className="h-3 w-full bg-slate-100 rounded-full flex overflow-hidden border border-slate-200">
+              <div className="h-3 w-full bg-[#080D1A] rounded-full flex overflow-hidden border border-slate-800">
                 <div
                   style={{ width: `${settings.lowThreshold}%` }}
-                  className="bg-emerald-500 flex items-center justify-center text-[9px] font-bold text-white"
+                  className="bg-emerald-500 flex items-center justify-center text-[9px] font-bold text-slate-900"
                   title="ALLOW Tier"
                 />
                 <div
                   style={{ width: `${settings.blockThreshold - settings.lowThreshold}%` }}
-                  className="bg-amber-500 flex items-center justify-center text-[9px] font-bold text-white"
+                  className="bg-amber-500 flex items-center justify-center text-[9px] font-bold text-slate-900"
                   title="WARN Tier"
                 />
                 <div
@@ -231,10 +239,10 @@ export const RulesAndSettings: React.FC = () => {
                   title="BLOCK Tier"
                 />
               </div>
-              <div className="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
-                <span>0 (ALLOW)</span>
-                <span>{settings.lowThreshold} (WARN)</span>
-                <span>{settings.blockThreshold} (BLOCK)</span>
+              <div className="flex justify-between text-[10px] font-mono text-slate-400 mt-1">
+                <span className="text-emerald-400">0 (ALLOW)</span>
+                <span className="text-amber-400">{settings.lowThreshold} (WARN)</span>
+                <span className="text-rose-400">{settings.blockThreshold} (BLOCK)</span>
                 <span>100</span>
               </div>
             </div>
@@ -243,69 +251,69 @@ export const RulesAndSettings: React.FC = () => {
 
         {/* Right: Security & Privacy Policies */}
         <div className="lg:col-span-6 space-y-4">
-          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
-            <div className="border-b border-slate-100 pb-3">
-              <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+          <div className="bg-[#0F172A] border border-slate-800/80 rounded-xl p-5 shadow-md space-y-4">
+            <div className="border-b border-slate-800 pb-3">
+              <h2 className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-0.5 font-mono">
                 Enforcement Controls
               </h2>
-              <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
-                <Lock className="h-4 w-4 text-blue-600" />
+              <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                <Lock className="h-4 w-4 text-cyan-400" />
                 <span>Security & Privacy Policies</span>
               </h3>
             </div>
 
             <div className="space-y-2.5 pt-1">
               {/* Fail-Closed */}
-              <label className="flex items-start gap-3 p-3 rounded-lg bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100/60 transition-colors">
+              <label className="flex items-start gap-3 p-3 rounded-lg bg-[#080D1A] border border-slate-800 cursor-pointer hover:border-slate-700 transition-colors">
                 <input
                   type="checkbox"
                   checked={settings.failClosed}
                   onChange={(e) => setSettings({ ...settings, failClosed: e.target.checked })}
-                  className="mt-0.5 rounded accent-blue-600"
+                  className="mt-0.5 rounded accent-cyan-500"
                 />
                 <div>
-                  <span className="text-xs font-bold text-slate-900 block">
+                  <span className="text-xs font-bold text-slate-200 block font-mono">
                     Fail-Closed on Internal Analyzer Errors (PRD Mandate)
                   </span>
-                  <span className="text-[11px] text-slate-500 leading-normal">
+                  <span className="text-[11px] text-slate-400 leading-normal">
                     If an internal exception occurs during prompt scoring, automatically default to BLOCK rather than silently allowing unverified inputs.
                   </span>
                 </div>
               </label>
 
               {/* Academic Context Damping */}
-              <label className="flex items-start gap-3 p-3 rounded-lg bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100/60 transition-colors">
+              <label className="flex items-start gap-3 p-3 rounded-lg bg-[#080D1A] border border-slate-800 cursor-pointer hover:border-slate-700 transition-colors">
                 <input
                   type="checkbox"
                   checked={settings.academicContextDamping}
                   onChange={(e) =>
                     setSettings({ ...settings, academicContextDamping: e.target.checked })
                   }
-                  className="mt-0.5 rounded accent-blue-600"
+                  className="mt-0.5 rounded accent-cyan-500"
                 />
                 <div>
-                  <span className="text-xs font-bold text-slate-900 block">
+                  <span className="text-xs font-bold text-slate-200 block font-mono">
                     Academic & Research Context Dampener (False-Positive Reducer)
                   </span>
-                  <span className="text-[11px] text-slate-500 leading-normal">
+                  <span className="text-[11px] text-slate-400 leading-normal">
                     Reduces threat penalty when prompt is inquiring about cybersecurity concepts rather than commanding an injection.
                   </span>
                 </div>
               </label>
 
               {/* Mask Logs */}
-              <label className="flex items-start gap-3 p-3 rounded-lg bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-100/60 transition-colors">
+              <label className="flex items-start gap-3 p-3 rounded-lg bg-[#080D1A] border border-slate-800 cursor-pointer hover:border-slate-700 transition-colors">
                 <input
                   type="checkbox"
                   checked={settings.maskLogs}
                   onChange={(e) => setSettings({ ...settings, maskLogs: e.target.checked })}
-                  className="mt-0.5 rounded accent-blue-600"
+                  className="mt-0.5 rounded accent-cyan-500"
                 />
                 <div>
-                  <span className="text-xs font-bold text-slate-900 block">
+                  <span className="text-xs font-bold text-slate-200 block font-mono">
                     Sensitive Data Masking in Logs
                   </span>
-                  <span className="text-[11px] text-slate-500 leading-normal">
+                  <span className="text-[11px] text-slate-400 leading-normal">
                     Mask the middle section of prompts in audit logs to protect PII and sensitive user queries.
                   </span>
                 </div>
@@ -316,26 +324,26 @@ export const RulesAndSettings: React.FC = () => {
       </div>
 
       {/* Rules Catalog Table */}
-      <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+      <div className="bg-[#0F172A] border border-slate-800/80 rounded-xl p-5 shadow-md space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
           <div>
-            <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+            <h2 className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest mb-0.5 font-mono">
               Rule Directory
             </h2>
-            <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
-              <Layers className="h-4 w-4 text-blue-600" />
+            <h3 className="font-bold text-sm text-white flex items-center gap-2">
+              <Layers className="h-4 w-4 text-cyan-400" />
               <span>Active Rule Catalog ({rules.length} rules)</span>
             </h3>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-400">
               Toggle individual detection categories or adjust weight contributions.
             </p>
           </div>
 
           <button
             onClick={() => setShowAddRule(!showAddRule)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-md text-xs font-semibold border border-slate-200 transition-all cursor-pointer shadow-2xs self-start"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#111A2E] hover:bg-slate-800 text-slate-200 rounded-md text-xs font-semibold border border-slate-700/80 hover:border-cyan-500/40 transition-all cursor-pointer shadow-xs self-start font-mono"
           >
-            <Plus className="h-3.5 w-3.5 text-blue-600" />
+            <Plus className="h-3.5 w-3.5 text-cyan-400" />
             <span>Add Custom Rule</span>
           </button>
         </div>
@@ -344,14 +352,14 @@ export const RulesAndSettings: React.FC = () => {
         {showAddRule && (
           <form
             onSubmit={handleAddCustomRule}
-            className="bg-slate-50 border border-blue-200 rounded-xl p-4 space-y-3"
+            className="bg-[#080D1A] border border-cyan-500/30 rounded-xl p-4 space-y-3 font-mono shadow-inner"
           >
             <div className="flex items-center justify-between">
-              <span className="font-bold text-xs text-blue-900">Add New Custom Organization Rule</span>
+              <span className="font-bold text-xs text-cyan-300">Add New Custom Organization Rule</span>
               <button
                 type="button"
                 onClick={() => setShowAddRule(false)}
-                className="text-slate-500 hover:text-slate-700 text-xs cursor-pointer font-medium"
+                className="text-slate-400 hover:text-slate-200 text-xs cursor-pointer font-medium"
               >
                 Cancel
               </button>
@@ -359,35 +367,35 @@ export const RulesAndSettings: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div>
-                <label className="text-slate-600 font-semibold block mb-1">Rule Name:</label>
+                <label className="text-slate-400 font-semibold block mb-1">Rule Name:</label>
                 <input
                   type="text"
                   required
                   value={customName}
                   onChange={(e) => setCustomName(e.target.value)}
                   placeholder="e.g., Block Internal Company Key Leaks"
-                  className="w-full bg-white border border-slate-200 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full bg-[#0F172A] border border-slate-700 rounded-lg p-2 text-slate-100 focus:outline-none focus:border-cyan-500 font-sans"
                 />
               </div>
 
               <div>
-                <label className="text-slate-600 font-semibold block mb-1">Regex Pattern:</label>
+                <label className="text-slate-400 font-semibold block mb-1">Regex Pattern:</label>
                 <input
                   type="text"
                   required
                   value={customPattern}
                   onChange={(e) => setCustomPattern(e.target.value)}
                   placeholder="e.g., (secret_key|api_token_override)"
-                  className="w-full bg-white border border-slate-200 rounded-lg p-2 font-mono text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full bg-[#0F172A] border border-slate-700 rounded-lg p-2 font-mono text-cyan-300 focus:outline-none focus:border-cyan-500"
                 />
               </div>
 
               <div>
-                <label className="text-slate-600 font-semibold block mb-1">Category:</label>
+                <label className="text-slate-400 font-semibold block mb-1">Category:</label>
                 <select
                   value={customCategory}
                   onChange={(e) => setCustomCategory(e.target.value as DetectionCategory)}
-                  className="w-full bg-white border border-slate-200 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
+                  className="w-full bg-[#0F172A] border border-slate-700 rounded-lg p-2 text-slate-100 focus:outline-none focus:border-cyan-500 cursor-pointer"
                 >
                   <option value="CUSTOM_RULE">Custom Rule</option>
                   <option value="INSTRUCTION_OVERRIDE">Instruction Override</option>
@@ -398,7 +406,7 @@ export const RulesAndSettings: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-slate-600 font-semibold block mb-1">Severity Weight (+{customWeight}):</label>
+                <label className="text-slate-400 font-semibold block mb-1">Severity Weight (+{customWeight}):</label>
                 <input
                   type="range"
                   min={10}
@@ -406,25 +414,25 @@ export const RulesAndSettings: React.FC = () => {
                   step={5}
                   value={customWeight}
                   onChange={(e) => setCustomWeight(parseInt(e.target.value, 10))}
-                  className="w-full accent-blue-600 cursor-pointer"
+                  className="w-full accent-cyan-500 cursor-pointer"
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-slate-600 font-semibold text-xs block mb-1">Description:</label>
+              <label className="text-slate-400 font-semibold text-xs block mb-1">Description:</label>
               <input
                 type="text"
                 value={customDesc}
                 onChange={(e) => setCustomDesc(e.target.value)}
                 placeholder="Explains what this rule catches..."
-                className="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full bg-[#0F172A] border border-slate-700 rounded-lg p-2 text-xs text-slate-100 focus:outline-none focus:border-cyan-500 font-sans"
               />
             </div>
 
             <button
               type="submit"
-              className="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition-all cursor-pointer shadow-sm"
+              className="px-4 py-1.5 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white rounded-lg text-xs font-bold transition-all cursor-pointer shadow-sm"
             >
               Save Custom Rule
             </button>
@@ -438,30 +446,30 @@ export const RulesAndSettings: React.FC = () => {
               key={rule.id}
               className={`p-3.5 rounded-xl border transition-all ${
                 rule.enabled
-                  ? 'bg-slate-50 border-slate-200'
-                  : 'bg-slate-50/50 border-slate-200/50 opacity-60'
+                  ? 'bg-[#080D1A] border-slate-800'
+                  : 'bg-[#060A14] border-slate-800/40 opacity-50'
               }`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-xs text-slate-900">{rule.name}</span>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white text-blue-700 border border-slate-200 font-semibold">
+                    <span className="font-bold text-xs text-slate-200">{rule.name}</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#111A2E] text-cyan-300 border border-slate-700/80 font-semibold">
                       {rule.category}
                     </span>
                     {rule.isCustom && (
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-100 text-purple-700 border border-purple-200">
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 font-mono">
                         Custom
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-slate-500">{rule.description}</p>
+                  <p className="text-xs text-slate-400">{rule.description}</p>
                 </div>
 
                 {/* Right controls */}
-                <div className="flex items-center gap-4 self-end sm:self-auto">
+                <div className="flex items-center gap-4 self-end sm:self-auto font-mono">
                   <div className="flex items-center gap-2 text-xs">
-                    <span className="text-slate-500 font-mono text-[11px] font-semibold">Weight: +{rule.weight}</span>
+                    <span className="text-slate-400 text-[11px] font-semibold">Weight: +{rule.weight}</span>
                     <input
                       type="range"
                       min={10}
@@ -469,7 +477,7 @@ export const RulesAndSettings: React.FC = () => {
                       step={5}
                       value={rule.weight}
                       onChange={(e) => handleWeightChange(rule.id, parseInt(e.target.value, 10))}
-                      className="w-20 accent-blue-600 cursor-pointer"
+                      className="w-20 accent-cyan-400 cursor-pointer"
                     />
                   </div>
 
@@ -480,13 +488,14 @@ export const RulesAndSettings: React.FC = () => {
                       onChange={(e) => handleRuleToggle(rule.id, e.target.checked)}
                       className="sr-only peer"
                     />
-                    <div className="w-8 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-blue-600" />
+                    <div className="w-8 h-4 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-600 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-cyan-500" />
                   </label>
 
                   {rule.isCustom && (
                     <button
                       onClick={() => handleDeleteRule(rule.id)}
-                      className="text-slate-400 hover:text-rose-600 p-1 transition-colors cursor-pointer"
+                      className="text-slate-500 hover:text-rose-400 p-1 transition-colors cursor-pointer"
+                      title="Delete Custom Rule"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
